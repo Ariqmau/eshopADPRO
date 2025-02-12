@@ -43,10 +43,16 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProductPost(@PathVariable String id, Model model) {
+    public String deleteProductPage(@PathVariable String id, Model model) {
         Product product = service.findById(id);
+        model.addAttribute("product", product);
+        return "DeleteProduct";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProductPost(@ModelAttribute Product product, Model model) {
         service.delete(product);
-        return "redirect:../list";
+        return "redirect:/product/list"; // Correct absolute redirect path
     }
 
     @GetMapping("/list")

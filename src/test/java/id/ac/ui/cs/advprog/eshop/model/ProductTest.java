@@ -3,10 +3,11 @@ package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ProductTest {
     Product product;
+
     @BeforeEach
     void setUp() {
         this.product = new Product();
@@ -28,5 +29,17 @@ class ProductTest {
     @Test
     void testGetProductQuantity() {
         assertEquals(100, this.product.getProductQuantity());
+    }
+
+    @Test
+    void testSetNegativeQuantity() {
+        this.product.setProductQuantity(-1);
+        assertEquals(0, this.product.getProductQuantity());
+    }
+
+    @Test
+    void testSetEmptyProductName() {
+        this.product.setProductName("");
+        assertEquals("Untitled Product", this.product.getProductName());
     }
 }

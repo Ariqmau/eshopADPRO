@@ -14,4 +14,12 @@ public class Product {
     public Product() {
         this.productId = UUID.randomUUID().toString();
     }
+
+    public void setProductQuantity(int quantity) {
+        this.productQuantity = Math.max(0, quantity);
+    }
+
+    public void setProductName(String name) {
+        this.productName = (name == null || name.trim().isEmpty()) ? "Untitled Product" : name;
+    }
 }

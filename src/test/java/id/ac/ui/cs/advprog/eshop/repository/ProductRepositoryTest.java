@@ -141,4 +141,62 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEdit_NonExistentProduct_ShouldReturnNull() {
+        // Arrange: Add a product that exists
+        Product existingProduct = new Product();
+        existingProduct.setProductId("existing-id");
+        existingProduct.setProductName("Existing Product");
+        productRepository.create(existingProduct);
+
+        // Act: Try editing a product that does not exist
+        Product nonExistentProduct = new Product();
+        nonExistentProduct.setProductId("non-existent-id");
+        nonExistentProduct.setProductName("Test Product");
+
+        Product result = productRepository.edit(nonExistentProduct);
+
+        // Assert: Should return null
+        assertNull(result, "Editing a non-existent product should return null");
+    }
+
+
+    @Test
+    void testDelete_NonExistentProduct_ShouldReturnNull() {
+        // Arrange: Add an unrelated product to ensure the loop runs
+        Product existingProduct = new Product();
+        existingProduct.setProductId("existing-id");
+        existingProduct.setProductName("Existing Product");
+        productRepository.create(existingProduct);
+
+        // Act: Try deleting a product that does not exist
+        Product nonExistentProduct = new Product();
+        nonExistentProduct.setProductId("non-existent-id");
+
+        Product result = productRepository.delete(nonExistentProduct);
+
+        // Assert: Should return null
+        assertNull(result, "Deleting a non-existent product should return null");
+    }
+
+    @Test
+    void testFindById_ProductNotInRepository_ShouldReturnNull() {
+        // Arrange: Add some products
+        Product product1 = new Product();
+        product1.setProductId("1");
+        product1.setProductName("Product 1");
+        productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductId("2");
+        product2.setProductName("Product 2");
+        productRepository.create(product2);
+
+        // Act: Search for a product ID that does NOT exist
+        Product result = productRepository.findById("non-existent-id");
+
+        // Assert: Should return null
+        assertNull(result, "Searching for a non-existent product in a non-empty repository should return null");
+    }
 }

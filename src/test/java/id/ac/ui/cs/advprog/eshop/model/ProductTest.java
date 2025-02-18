@@ -42,4 +42,16 @@ class ProductTest {
         this.product.setProductName("");
         assertEquals("Untitled Product", this.product.getProductName());
     }
+
+    @Test
+    void testSetNullProductName() {
+        this.product.setProductName(null);
+        assertEquals("Untitled Product", this.product.getProductName());
+    }
+
+    @Test
+    void testSetValidProductName() {
+        this.product.setProductName("New Product Name");
+        assertEquals("New Product Name", this.product.getProductName());
+    }
 }

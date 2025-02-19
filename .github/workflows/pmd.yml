@@ -1,7 +1,7 @@
 name: PMD analysis
 on:
   push:
-    branches: [ "main" ]
+  pull_request:
 
 jobs:
   pmd:

@@ -144,7 +144,7 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testEdit_NonExistentProduct_ShouldReturnNull() {
+    void editNonExistentProductShouldReturnNull() {
         // Arrange: Add a product that exists
         Product existingProduct = new Product();
         existingProduct.setProductId("existing-id");
@@ -162,9 +162,8 @@ class ProductRepositoryTest {
         assertNull(result, "Editing a non-existent product should return null");
     }
 
-
     @Test
-    void testDelete_NonExistentProduct_ShouldReturnNull() {
+    void deleteNonExistentProductShouldReturnNull() {
         // Arrange: Add an unrelated product to ensure the loop runs
         Product existingProduct = new Product();
         existingProduct.setProductId("existing-id");
@@ -182,7 +181,7 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testFindById_ProductNotInRepository_ShouldReturnNull() {
+    void findByIdProductNotInRepositoryShouldReturnNull() {
         // Arrange: Add some products
         Product product1 = new Product();
         product1.setProductId("1");

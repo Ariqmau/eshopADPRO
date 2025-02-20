@@ -38,7 +38,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProduct_isCorrect(ChromeDriver driver) {
+    void createProductIsCorrect(ChromeDriver driver) {
         // Open Create Product page
         driver.get(createUrl);
 

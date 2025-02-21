@@ -1,0 +1,26 @@
+name: PMD analysis
+on:
+  push:
+  pull_request:
+
+permissions:
+  security-events: write
+
+jobs:
+  pmd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: pmd/pmd-github-action@v2
+        with:
+          rulesets: 'rulesets/java/quickstart.xml,ruleset.xml'
+          analyzeModifiedFilesOnly: false
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: pmd-report.sarif

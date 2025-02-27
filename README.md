@@ -37,3 +37,38 @@ Menurut saya, implementasi workflow sekarang bisa dikatakan cukup untuk memenuhi
 ##### Continuous Deployment:
 - Automated Deployment: Menggunakan Koyeb deployment dilakukan setiap kali ada update pada `main` branch.
 </details>
+
+<details>
+  <summary>Modul 3</summary>
+
+### Reflection 1
+- Single Responsibility Principle (SRP)
+
+    Sekarang setiap class memiliki satu tanggung jawab:
+  - ProductController mengontrol request yang berkaitan dengan product.
+  - CarController mengontrol request yang berkaitan dengan car. 
+- Open/Closed Principle (OCP)
+
+    `CarSrviceImpl implements CarSrvice`, ini menjadikannya jika ada pembuatan implementasi service baru kita tidak perlu mengubah kode yang sudah ada.
+- Liskov Substitution Principle (LSP)
+
+  CarController tidak extend ProductControler. CarController tidak seharusnya berperilaku seperti ProductController. Keduanya memiliki tanggung jawab yang berbeda.
+Setiap controller bekerja secara independen, sesuai dengan fungsi masing-masing.
+- Dependency Inversion Principle (DIP)
+
+    CarController menggunakan CarService yang merupakan interface dan bukan CarServiceImpl. Jadi kita bisa mengganti implementasi tanpa mengubah CarController.
+### Reflection 2
+- Lebih bisa dikelola
+Contoh seperti jika CarServiceImpl perlu diubah, CarController dan sistem lainnya tidak akan terpengaruhi.
+- Lebih mudah untuk testing
+Pemakaian CarServie interface akan memudahkan unit testing menggunakan mock.
+- Kode yang dapat digunakan kembali
+CarService sebagai interface bisa mempunyai banyak implementasi.
+### Reflection 3
+- Lebih sulit untuk dikelola
+Contoh jika CarController masih extend ProductController, dan ada method baru pada ProductController, yang seharusnya CarController dan ProductController berdiri sendiri, CarController bisa jadi rusak jika mengguanakn method yang sama dari ProductController.
+- Testing yang sulit
+CarServiceImpl tidak dapat di mock untuk testing.
+- Kode menjadi tidak fleksibel
+Dengan tidak menggunakan interface untuk CarService, jika ada perubahan pada CarServiceImpl maka CarController bisa jadi harus ada yang diubah juga.
+</details>

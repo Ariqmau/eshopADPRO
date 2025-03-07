@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,14 +46,14 @@ public class PaymentTest {
     @Test
     void testCreatePaymentWithValidVoucherDetails() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "VOUCHER", this.voucherDetails, this.order);
+                PaymentMethod.VOUCHER.getValue(), this.voucherDetails, this.order);
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals("VOUCHER", payment.getMethod());
+        assertEquals(PaymentMethod.VOUCHER.getValue(), payment.getMethod());
         assertEquals(this.voucherDetails, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
 
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -59,9 +61,9 @@ public class PaymentTest {
         Map<String, String> voucherTooLong = new HashMap<>();
         voucherTooLong.put("voucherCode", "ESHOP1234ABC5678910");
         Payment paymentTooLong = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "VOUCHER", voucherTooLong, this.order);
+                PaymentMethod.VOUCHER.getValue(), voucherTooLong, this.order);
 
-        assertEquals("REJECTED", paymentTooLong.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentTooLong.getStatus());
     }
 
     @Test
@@ -69,9 +71,9 @@ public class PaymentTest {
         Map<String, String> voucherTooShort = new HashMap<>();
         voucherTooShort.put("voucherCode", "ESHOP1234ABC56");
         Payment paymentTooShort = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "VOUCHER", voucherTooShort, this.order);
+                PaymentMethod.VOUCHER.getValue(), voucherTooShort, this.order);
 
-        assertEquals("REJECTED", paymentTooShort.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentTooShort.getStatus());
     }
 
     @Test
@@ -79,9 +81,9 @@ public class PaymentTest {
         Map<String, String> voucherNotStartWithESHOP = new HashMap<>();
         voucherNotStartWithESHOP.put("voucherCode", "1234ABC5678910");
         Payment paymentTooShort = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "VOUCHER", voucherNotStartWithESHOP, this.order);
+                PaymentMethod.VOUCHER.getValue(), voucherNotStartWithESHOP, this.order);
 
-        assertEquals("REJECTED", paymentTooShort.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentTooShort.getStatus());
     }
 
     @Test
@@ -89,22 +91,22 @@ public class PaymentTest {
         Map<String, String> voucherNotEightNumerical = new HashMap<>();
         voucherNotEightNumerical.put("voucherCode", "ABCDEFG5678910");
         Payment paymentTooShort = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "VOUCHER", voucherNotEightNumerical, this.order);
+                PaymentMethod.VOUCHER.getValue(), voucherNotEightNumerical, this.order);
 
-        assertEquals("REJECTED", paymentTooShort.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), paymentTooShort.getStatus());
     }
 
     @Test
     void testCreatePaymentWithValidBankDetails() {
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "BANK", this.bankDetails, this.order);
+                PaymentMethod.BANK.getValue(), this.bankDetails, this.order);
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals("BANK", payment.getMethod());
+        assertEquals(PaymentMethod.BANK.getValue(), payment.getMethod());
         assertEquals(this.bankDetails, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
 
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
     }
 
     @Test
@@ -113,9 +115,9 @@ public class PaymentTest {
         bankEmptyName.put("bankName", "");
         bankEmptyName.put("referenceCode", "REFERENCE_CODE");
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "BANK", bankEmptyName, this.order);
+                PaymentMethod.BANK.getValue(), bankEmptyName, this.order);
 
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -124,9 +126,9 @@ public class PaymentTest {
         bankEmptyName.put("bankName", "BANK_NAME");
         bankEmptyName.put("referenceCode", "");
         Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                "BANK", bankEmptyName, this.order);
+                PaymentMethod.BANK.getValue(), bankEmptyName, this.order);
 
-        assertEquals("REJECTED", payment.getStatus());
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
     }
 
     @Test
@@ -143,7 +145,7 @@ public class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                    "VOUCHER", this.voucherDetails, this.order);
+                    PaymentMethod.VOUCHER.getValue(), this.voucherDetails, this.order);
         });
     }
 
@@ -151,7 +153,7 @@ public class PaymentTest {
     void testCreatePaymentNullOrder() {
         assertThrows(IllegalArgumentException.class, () -> {
             Payment payment = new Payment("13652556-012a-4c07-b546-54eb1396d79b",
-                    "VOUCHER", this.voucherDetails, null);
+                    PaymentMethod.VOUCHER.getValue(), this.voucherDetails, null);
         });
     }
 }

@@ -39,9 +39,9 @@ public class PaymentRepositoryTest {
         bankDetails.put("bankName", "BANK_NAME");
         bankDetails.put("referenceCode", "REFERENCE_CODE");
 
-        Payment payment1 = new Payment("7f9e15bb-4b15-42f4-aebc-c3af385fb078", PaymentMethod.VOUCHER.getValue(), voucherDetails, order);
+        Payment payment1 = new Payment("7f9e15bb-4b15-42f4-aebc-c3af385fb078", PaymentMethod.VOUCHER.getValue(), voucherDetails, order1);
         payments.add(payment1);
-        Payment payment2 = new Payment("e334ef40-9eff-4da8-9487-8ee697ecbf1e", PaymentMethod.BANK.getValue(), bankDetails, this.order);
+        Payment payment2 = new Payment("e334ef40-9eff-4da8-9487-8ee697ecbf1e", PaymentMethod.BANK.getValue(), bankDetails, order2);
         payments.add(payment2);
     }
 
@@ -105,7 +105,7 @@ public class PaymentRepositoryTest {
 
     @Test
     void testFindAllPaymentsIfEmpty() {
-        Iterator<Payment> paymentIterator = paymentRepository.findAll();
+        Iterator<Payment> paymentIterator = paymentRepository.getAll();
         assertFalse(paymentIterator.hasNext());
     }
 
@@ -115,7 +115,7 @@ public class PaymentRepositoryTest {
             paymentRepository.save(payment);
         }
 
-        Iterator<Payment> paymentIterator = paymentRepository.findAll();
+        Iterator<Payment> paymentIterator = paymentRepository.getAll();
         assertTrue(paymentIterator.hasNext());
         Payment firstPayment = paymentIterator.next();
         assertEquals(payments.get(0).getId(), firstPayment.getId());

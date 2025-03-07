@@ -67,7 +67,7 @@ public class PaymentServiceTest {
         Payment payment = payments.get(1);
         doReturn(payment).when(paymentRepository).save(payment);
 
-        Payment result = paymentService.addPayment(payment);
+        Payment result = paymentService.addPayment(payment.getOrder(), payment.getMethod(), payment.getPaymentData());
         verify(paymentRepository, times(1)).save(payment);
         assertEquals(payment.getId(), result.getId());
     }
@@ -77,7 +77,7 @@ public class PaymentServiceTest {
         Payment payment = payments.get(1);
         doReturn(payment).when(paymentRepository).findById(payment.getId());
 
-        assertNull(paymentService.addPayment(payment));
+        assertNull(paymentService.addPayment(payment.getOrder(), payment.getMethod(), payment.getPaymentData()));
         verify(paymentRepository, times(0)).save(payment);
     }
 
@@ -89,7 +89,7 @@ public class PaymentServiceTest {
         doReturn(payment).when(paymentRepository).findById(payment.getId());
         doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.setStatus(payment.getId(), OrderStatus.SUCCESS.getValue());
+        Payment result = paymentService.setStatus(payment, OrderStatus.SUCCESS.getValue());
 
         assertEquals(payment.getId(), result.getId());
         assertEquals(PaymentStatus.SUCCESS.getValue(), result.getStatus());
@@ -105,7 +105,7 @@ public class PaymentServiceTest {
         doReturn(payment).when(paymentRepository).findById(payment.getId());
         doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
-        Payment result = paymentService.setStatus(payment.getId(), PaymentStatus.REJECTED.getValue());
+        Payment result = paymentService.setStatus(payment, PaymentStatus.REJECTED.getValue());
 
         assertEquals(payment.getId(), result.getId());
         assertEquals(PaymentStatus.REJECTED.getValue(), result.getStatus());
@@ -119,34 +119,34 @@ public class PaymentServiceTest {
         doReturn(payment).when(paymentRepository).findById(payment.getId());
 
         assertThrows(IllegalArgumentException.class,
-                () -> paymentService.setStatus(payment.getId(), "RAWR"));
+                () -> paymentService.setStatus(payment, "RAWR"));
 
         verify(paymentRepository, times(0)).save(any(Payment.class));
     }
 
     @Test
-    void testSetStatusInvalidPaymentId() {
+    void testSetStatusNullPayment() {
         doReturn(null).when(paymentRepository).findById("zczc");
 
         assertThrows(NoSuchElementException.class,
-                () -> paymentService.setStatus("zczc", OrderStatus.SUCCESS.getValue()));
+                () -> paymentService.setStatus(null, OrderStatus.SUCCESS.getValue()));
 
         verify(paymentRepository, times(0)).save(any(Payment.class));
     }
 
     @Test
-    void testFindByIdIfIdFound() {
+    void testGetPaymentByIdIfIdFound() {
         Payment payment = payments.get(1);
         doReturn(payment).when(paymentRepository).findById(payment.getId());
 
-        Order result = paymentService.findById(payment.getId());
+        Payment result = paymentService.getPayment(payment.getId());
         assertEquals(payment.getId(), result.getId());
     }
 
     @Test
-    void testFindByIdIfIdNotFound() {
+    void testGetPaymentByIdIfIdNotFound() {
         doReturn(null).when(paymentRepository).findById("zczc");
-        assertNull(paymentService.findById("zczc"));
+        assertNull(paymentService.getPayment("zczc"));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class PaymentServiceTest {
         Payment payment = payments.get(1);
         doReturn(payment).when(paymentRepository).getAll();
 
-        Collection<Payment> allPayments = paymentService.getAll();
+        Collection<Payment> allPayments = paymentService.getAllPayments();
         assertEquals(2, allPayments.size());
         assertTrue(allPayments.contains(payments.get(0)));
         assertTrue(allPayments.contains(payments.get(1)));

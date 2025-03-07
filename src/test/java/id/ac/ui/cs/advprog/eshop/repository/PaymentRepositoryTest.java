@@ -39,6 +39,7 @@ public class PaymentRepositoryTest {
         bankDetails.put("bankName", "BANK_NAME");
         bankDetails.put("referenceCode", "REFERENCE_CODE");
 
+        this.payments = new ArrayList<>();
         Payment payment1 = new Payment("7f9e15bb-4b15-42f4-aebc-c3af385fb078", PaymentMethod.VOUCHER.getValue(), voucherDetails, order1);
         payments.add(payment1);
         Payment payment2 = new Payment("e334ef40-9eff-4da8-9487-8ee697ecbf1e", PaymentMethod.BANK.getValue(), bankDetails, order2);

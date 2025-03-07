@@ -101,7 +101,7 @@ public class PaymentTest {
 
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", payment.getId());
         assertEquals("BANK", payment.getMethod());
-        assertEquals(this.voucherDetails, payment.getPaymentData());
+        assertEquals(this.bankDetails, payment.getPaymentData());
         assertSame(this.order, payment.getOrder());
 
         assertEquals("SUCCESS", payment.getStatus());

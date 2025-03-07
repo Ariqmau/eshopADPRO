@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum PaymentMethod {
-    SUCCESS("VOUCHER"),
-    REJECTED("BANK");
+    VOUCHER("VOUCHER"),
+    BANK("BANK");
 
     private final String value;
 

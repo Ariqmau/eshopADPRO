@@ -4,7 +4,6 @@ import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @Getter
@@ -49,6 +48,13 @@ public class Payment {
         String bankName = paymentData.get("bankName");
         String referenceCode = paymentData.get("referenceCode");
         return bankName != null && referenceCode != null && !bankName.isEmpty() && !referenceCode.isEmpty();
+    }
+
+    public void setStatus(String status) {
+        if (!PaymentStatus.contains(status)) {
+            throw new IllegalArgumentException();
+        }
+        this.status = status;
     }
 
     private int countDigit(String code){

@@ -72,3 +72,35 @@ CarServiceImpl tidak dapat di mock untuk testing.
 - Kode menjadi tidak fleksibel
 Dengan tidak menggunakan interface untuk CarService, jika ada perubahan pada CarServiceImpl maka CarController bisa jadi harus ada yang diubah juga.
 </details>
+<details>
+  <summary>Modul 4</summary>
+
+### Reflection 1
+TDD sangat membantu memastikan bahwa setiap fitur yang dikembangkan sudah memiliki pengujian sejak awal. 
+Saya merasa alur ini cukup efektif dalam meningkatkan kepercayaan terhadap kode, tetapi masih ada beberapa 
+kekurangan dalam implementasi. Salah satu masalah yang saya hadapi adalah adanya unnecessary stubbing, yang 
+membuat test lebih kompleks dari yang seharusnya. Selain itu, saya juga menyadari bahwa beberapa test yang 
+saya buat belum benar-benar mencerminkan kebutuhan aplikasi secara menyeluruh. Ke depannya, saya perlu lebih 
+teliti dalam merancang skenario pengujian sebelum menulis kode, agar test benar-benar mencerminkan behavior yang
+diharapkan. Saya juga harus lebih disiplin dalam melakukan refactoring pada test untuk menghindari redundansi dan 
+memastikan pengujian tetap efisien.
+### Reflection 2
+Dalam kaitannya dengan prinsip F.I.R.S.T., sebagian besar test sudah memenuhi aspek fast, 
+isolated, dan repeatable, tetapi masih ada beberapa kekurangan yang perlu diperbaiki. Salah satu 
+masalah utama adalah adanya test yang kurang independen karena terlalu bergantung pada kondisi tertentu, 
+sehingga jika satu test gagal, test lain juga berisiko ikut gagal. Selain itu, beberapa test masih menggunakan
+stubbing yang tidak perlu, sehingga menambah kompleksitas tanpa manfaat yang jelas. Saya juga menyadari bahwa
+readability pada beberapa test masih bisa ditingkatkan agar lebih mudah dipahami oleh pengembang lain. Ke depannya, 
+saya harus lebih berhati-hati dalam menentukan kapan menggunakan mock dan kapan cukup mengandalkan data nyata agar 
+test lebih representatif. Dengan melakukan perbaikan ini, saya berharap test yang saya buat bisa lebih efektif dalam 
+menjaga kualitas kode dan lebih mudah untuk dirawat dalam jangka panjang.
+
+
+
+
+
+
+
+
+
+</details>

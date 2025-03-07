@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 public class PaymentRepositoryTest {
     PaymentRepository paymentRepository;
     List<Payment> payments;
@@ -69,23 +70,22 @@ public class PaymentRepositoryTest {
         Payment newPayment = new Payment(payment.getId(),
                 PaymentMethod.BANK.getValue(), payment.getPaymentData(), payment.getOrder());
         Payment result = paymentRepository.save(newPayment);
-        Payment findResult = paymentRepository.findById(payments.get(1).getId());
+        Payment findResult = paymentRepository.findById(payment.getId());
 
-        assertEquals(payment.getId(), result.getId());
-        assertEquals(payment.getId(), findResult.getId());
-        assertEquals(payment.getPaymentData(), findResult.getPaymentData());
-        assertEquals(payment.getOrder(), findResult.getOrder());
+        assertEquals(newPayment.getId(), result.getId());
+        assertEquals(newPayment.getId(), findResult.getId());
+        assertEquals(newPayment.getPaymentData(), findResult.getPaymentData());
+        assertEquals(newPayment.getOrder(), findResult.getOrder());
         assertEquals(PaymentMethod.BANK.getValue(), findResult.getMethod());
-        assertEquals(payment.getOrder(), findResult.getOrder());
     }
 
     @Test
     void testFindPaymentByIdAndFound() {
-        for (Payment payment : payments) {
-            paymentRepository.save(payment);
-        }
+        paymentRepository.save(payments.get(0));
+        paymentRepository.save(payments.get(1));
 
         Payment findPayment = paymentRepository.findById(payments.get(1).getId());
+        assertNotNull(findPayment);
         assertEquals(payments.get(1).getId(), findPayment.getId());
         assertEquals(payments.get(1).getPaymentData(), findPayment.getPaymentData());
         assertEquals(payments.get(1).getOrder(), findPayment.getOrder());
@@ -95,9 +95,8 @@ public class PaymentRepositoryTest {
 
     @Test
     void testFindPaymentByIdAndNotFound() {
-        for (Payment payment : payments) {
-            paymentRepository.save(payment);
-        }
+        paymentRepository.save(payments.get(0));
+        paymentRepository.save(payments.get(1));
 
         Payment findPayment = paymentRepository.findById("INVALID_ID");
         assertNull(findPayment);
@@ -105,30 +104,18 @@ public class PaymentRepositoryTest {
 
     @Test
     void testFindAllPaymentsIfEmpty() {
-        Iterator<Payment> paymentIterator = paymentRepository.getAll();
-        assertFalse(paymentIterator.hasNext());
+        Collection<Payment> allPayments = paymentRepository.getAll();
+        assertTrue(allPayments.isEmpty());
     }
 
     @Test
     void testFindAllIfMoreThanOnePayment() {
-        for (Payment payment : payments) {
-            paymentRepository.save(payment);
-        }
+        paymentRepository.save(payments.get(0));
+        paymentRepository.save(payments.get(1));
 
-        Iterator<Payment> paymentIterator = paymentRepository.getAll();
-        assertTrue(paymentIterator.hasNext());
-        Payment firstPayment = paymentIterator.next();
-        assertEquals(payments.get(0).getId(), firstPayment.getId());
-        assertEquals(payments.get(0).getPaymentData(), firstPayment.getPaymentData());
-        assertEquals(payments.get(0).getOrder(), firstPayment.getOrder());
-        assertEquals(payments.get(0).getStatus(), firstPayment.getStatus());
-        assertEquals(payments.get(0).getMethod(), firstPayment.getMethod());
-        Payment secondPayment = paymentIterator.next();
-        assertEquals(payments.get(1).getId(), secondPayment.getId());
-        assertEquals(payments.get(1).getPaymentData(), secondPayment.getPaymentData());
-        assertEquals(payments.get(1).getOrder(), secondPayment.getOrder());
-        assertEquals(payments.get(1).getStatus(), secondPayment.getStatus());
-        assertEquals(payments.get(1).getMethod(), secondPayment.getMethod());
-        assertFalse(paymentIterator.hasNext());
+        Collection<Payment> allPayments = paymentRepository.getAll();
+        assertEquals(2, allPayments.size());
+        assertTrue(allPayments.contains(payments.get(0)));
+        assertTrue(allPayments.contains(payments.get(1)));
     }
 }

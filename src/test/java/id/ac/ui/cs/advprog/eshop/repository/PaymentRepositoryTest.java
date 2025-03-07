@@ -66,13 +66,10 @@ public class PaymentRepositoryTest {
     void testUpdatePayment() {
         Payment payment = payments.get(1);
         paymentRepository.save(payment);
-        Map<String, String> newPaymentDetail = new HashMap<>();
-        newPaymentDetail.put("bankName", "BANK_NAME");
-        newPaymentDetail.put("referenceCode", "REFERENCE_CODE");
-        Payment newPayment = new Payment("7148aec0-26ea-47a1-aafe-c9eb598985f8",
-                PaymentMethod.BANK.getValue(), newPaymentDetail, payment.getOrder());
+        Payment newPayment = new Payment(payment.getId(),
+                PaymentMethod.BANK.getValue(), payment.getPaymentData(), payment.getOrder());
         Payment result = paymentRepository.save(newPayment);
-        Payment findResult = paymentRepository.findById(result.getId());
+        Payment findResult = paymentRepository.findById(payments.get(1).getId());
 
         assertEquals(payment.getId(), result.getId());
         assertEquals(payment.getId(), findResult.getId());

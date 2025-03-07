@@ -34,12 +34,20 @@ public class PaymentServiceImpl implements PaymentService {
             throw new NoSuchElementException();
         }
         payment.setStatus(status);
-        if (payment.getStatus().equals(PaymentStatus.SUCCESS.getValue())) {
-            payment.getOrder().setStatus(OrderStatus.SUCCESS.getValue());
-        } else {
-            payment.getOrder().setStatus(OrderStatus.FAILED.getValue());
-        }
+
+        updateOrderStatus(payment);
+
         return paymentRepository.save(payment);
+    }
+
+    private void updateOrderStatus(Payment payment) {
+        if (payment == null || payment.getOrder() == null) return;
+
+        OrderStatus orderStatus = payment.getStatus().equals(PaymentStatus.SUCCESS.getValue())
+                ? OrderStatus.SUCCESS
+                : OrderStatus.FAILED;
+
+        payment.getOrder().setStatus(orderStatus.getValue());
     }
 
     @Override

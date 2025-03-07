@@ -1,9 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
-import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
-import lombok.Builder;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -19,8 +18,7 @@ public class Payment {
     public Payment(String id, String method, Map<String, String> paymentData, Order order) {
         this.id = id;
 
-        String[] methodList = {"VOUCHER", "BANK"};
-        if (Arrays.stream(methodList).noneMatch(item -> (item.equals(method)))) {
+        if (!PaymentMethod.contains(method)) {
             throw new IllegalArgumentException();
         } else {
             this.method = method;
@@ -33,12 +31,12 @@ public class Payment {
             this.order = order;
         }
 
-        if (method.equals("VOUCHER") && isVoucherDataValid()) {
-            this.status = "SUCCESS";
-        } else if (method.equals("BANK") && isBankDataValid()) {
-            this.status = "SUCCESS";
+        if (method.equals(PaymentMethod.VOUCHER.getValue()) && isVoucherDataValid()) {
+            this.status = PaymentStatus.SUCCESS.getValue();
+        } else if (method.equals(PaymentMethod.BANK.getValue()) && isBankDataValid()) {
+            this.status = PaymentStatus.SUCCESS.getValue();
         } else {
-            this.status = "REJECTED";
+            this.status = PaymentStatus.REJECTED.getValue();
         }
     }
 
